@@ -1,0 +1,27 @@
+﻿<?xml version="1.0"?>
+<launch>
+        <arg name="marker_id" default="0"/>
+        <arg name="place_id" default="2"/>
+
+        <include file="$(find piper_pick)/launch/agx_ar_pose.launch" >
+            <arg name="camera_namespace" value="hand_cam"/>
+            <arg name="serial_no" value="051122073539"/> <!--122622072872 109122071367 108522070208 相机序列号可通过realsense-viewer查看-->
+            <arg name="roll" value="0"/>
+            <arg name="pitch" value="-1.5708"/>
+            <arg name="yaw" value="0.0"/>
+            <arg name="x" value="-0.0"/>
+            <arg name="y" value="0.0"/><!---0.02-->
+            <arg name="z" value="0"/>
+            <arg name="use_quaternion" value="false"/>
+	        <arg name="parent_link" value="hand_cam"/>
+        </include>
+        <node pkg="tf" type="static_transform_publisher" name="marker_to_grab_point" 
+            args="0.02 0.01 0.2 1.57 0.0 3.1416 ar_marker_$(arg marker_id) grab_pose 10" />
+        <!-- <node pkg="tf" type="static_transform_publisher" name="marker_to_place_point" 
+            args="0.0 0.02 0.21 -0.6981 3.1416 0.0 ar_marker_$(arg place_id) place_pose 10" />
+             -->
+
+        <node pkg="tf" type="static_transform_publisher" name="marker_to_place_point" 
+            args="0.03 0.08 0.18 1.57 0.0 3.1416 ar_marker_$(arg place_id) place_pose 10" />
+            
+    </launch>

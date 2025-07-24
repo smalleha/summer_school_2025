@@ -1,0 +1,46 @@
+﻿<?xml version="1.0"?>
+<launch>
+  <arg name="x"            default="0"/>
+  <arg name="y"            default="0"/>
+  <arg name="z"            default="0"/>
+  <arg name="roll"            default="0"/>
+  <arg name="pitch"            default="0"/>
+  <arg name="yaw"            default="0"/>
+  <arg name="r_x"            default="0"/>
+  <arg name="r_y"            default="0"/>
+  <arg name="r_z"            default="0"/>
+  <arg name="r_w"            default="0"/>
+  <arg name="parent_link"            default="wrist3_Link"/>
+  <arg name="serial_no"            default=""/>
+  <arg name="marker_frame_id"     default="_color_frame"/>
+  <arg name="user_marker_size"	  default="3"/>
+  <arg name="use_quaternion" default="false"/>
+  <arg name="camera_model" default="realsense_d435" doc="model type [astra_pro, realsense_d435, raspicam]"/>
+  <arg name="camera_namespace" default="camera"/>
+
+  <group if="$(eval camera_model == 'realsense_d435')">
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+      <arg name="camera"                value="$(arg camera_namespace)"/>
+      <arg name="enable_pointcloud"     value="false" />
+      <arg name="serial_no"             value="$(arg serial_no)"/>
+    </include>
+
+	  <node unless="$(arg use_quaternion)" pkg="tf" type="static_transform_publisher" name="$(arg camera_namespace)_to_realsense_frame"
+	    args="$(arg x) $(arg y) $(arg z) $(arg yaw) $(arg pitch) $(arg roll) $(arg parent_link) $(arg camera_namespace)_link 10" />
+
+	  <node if="$(arg use_quaternion)" pkg="tf" type="static_transform_publisher" name="$(arg camera_namespace)_to_realsense_frame"
+	    args="$(arg x) $(arg y) $(arg z) $(arg r_x) $(arg r_y) $(arg r_z) $(arg r_w) $(arg parent_link) $(arg camera_namespace)_link 10" />
+
+    <include file="$(find ar_track_alvar)/launch/pr2_indiv_no_kinect.launch">
+      <arg name="marker_size" value="$(arg user_marker_size)" />
+      <arg name="max_new_marker_error" value="0.08" />
+      <arg name="max_track_error" value="0.2" />
+      <arg name="cam_image_topic" value="$(arg camera_namespace)/color/image_raw" />
+      <arg name="cam_info_topic" value="$(arg camera_namespace)/color/camera_info" />
+      <arg name="output_frame" value="hand_cam" />
+      <!-- <arg name="node_name" value="$(arg camera_namespace)"/> -->
+    </include>
+  </group>
+
+</launch>
+

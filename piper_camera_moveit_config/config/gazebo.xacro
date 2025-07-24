@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<robot name="piper_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_depth_camera" params="frame_prefix">
+        <gazebo reference="${frame_prefix}">
+          <sensor name="sensor_camera" type="depth">
+            <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+            <always_on>true</always_on>
+            <visualize>true</visualize>
+            <update_rate>10.0</update_rate>
+            <camera name="head">
+              <horizontal_fov>1.3962634</horizontal_fov>
+              <image>
+                  <width>1280</width>
+                  <height>720</height>
+                  <format>R8G8B8</format>
+              </image>
+              <clip>
+                  <near>0.02</near>
+                  <far>300</far>
+              </clip>
+            </camera>
+
+            <plugin name="gazebo_ros_depth_camera_sensor" filename="libgazebo_ros_openni_kinect.so">
+              <baseline>0.2</baseline>
+              <alwaysOn>true</alwaysOn>
+
+              <updateRate>10.0</updateRate>
+              <cameraName>${frame_prefix}/camera_ir</cameraName>
+              <imageTopicName>/${frame_prefix}/color/image_raw</imageTopicName>
+              <cameraInfoTopicName>/${frame_prefix}/color/camera_info</cameraInfoTopicName>
+              <depthImageTopicName>/${frame_prefix}/depth/image_raw</depthImageTopicName>
+              <depthImageCameraInfoTopicName>/${frame_prefix}/depth/camera_info</depthImageCameraInfoTopicName>
+              <pointCloudTopicName>/${frame_prefix}/depth/points</pointCloudTopicName>
+              <frameName>${frame_prefix}</frameName>
+              <cameraname>${frame_prefix}</cameraname>
+              
+              <pointCloudCutoff>0.5</pointCloudCutoff>
+              <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+              <distortionK1>0</distortionK1>
+              <distortionK2>0</distortionK2>
+              <distortionK3>0</distortionK3>
+              <distortionT1>0</distortionT1>
+              <distortionT2>0</distortionT2>
+              <CxPrime>0</CxPrime>
+              <Cx>0</Cx>
+              <Cy>0</Cy>
+              <focalLength>0</focalLength>
+              <hackBaseline>0</hackBaseline>
+            </plugin>
+        </sensor>
+          </gazebo>
+    </xacro:macro>
+
+
+
+</robot>
