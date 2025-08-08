@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find astar_cpp)/map11.yaml" output="screen" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find astar_cpp)/rviz/rviz_navigation.rviz">
+  </node>
+</launch>

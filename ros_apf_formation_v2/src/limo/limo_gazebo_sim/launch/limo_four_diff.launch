@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="world_name" default="$(find limo_gazebo_sim)/worlds/hui.world"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+    <group ns="limo1">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find limo_description)/urdf/limo_four_diff.xacro'
+        robot_namespace:=limo1 ns:=limo1" />
+
+    <node name="spawn_limo_model" pkg="gazebo_ros" type="spawn_model" args="-x 0
+              -y 0
+              -unpause
+              -urdf
+              -param robot_description
+              -model limo1" />
+
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+        <param name="tf_prefix" value="limo1" />
+        <param name="publish_frequency" type="double" value="50.0" />
+
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    </group>
+
+    <group ns="limo2">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find limo_description)/urdf/limo_four_diff.xacro'
+        robot_namespace:=limo2 ns:=limo2" />
+
+
+    <node name="spawn_limo_model" pkg="gazebo_ros" type="spawn_model" args="-x -1
+              -y -1
+              -unpause
+              -urdf
+              -param robot_description
+              -model limo2" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+        <param name="tf_prefix" value="limo2" />
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    </group>
+
+
+    <group ns="limo3">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find limo_description)/urdf/limo_four_diff.xacro'
+        robot_namespace:=limo3 ns:=limo3" />
+
+
+    <node name="spawn_limo_model" pkg="gazebo_ros" type="spawn_model" args="-x -1
+              -y 1
+              -unpause
+              -urdf
+              -param robot_description
+              -model limo3" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+        <param name="tf_prefix" value="limo3" />
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    </group>
+
+
+    <!-- <node name="limo1_rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" output="screen"/> -->
+    <node name="limo2_rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering" output="screen"/>
+
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find limo_description)/rviz/model_display.rviz" /> -->
+</launch>

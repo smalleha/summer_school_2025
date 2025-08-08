@@ -1,0 +1,4 @@
+<launch>
+    <rosparam param="odom_sources">["limo1", "limo2"]</rosparam>
+    <node pkg="limo_gazebo_sim" type="odom_pub" name="odom_pub_tf"/>
+</launch>

@@ -1,0 +1,22 @@
+# dwa_local_planner_params.yaml
+DWAPlannerROS:
+  max_vel_x: 0.5  # x方向最大线速度，单位为m/s
+  min_vel_x: -0.5  # x方向最小线速度，单位为m/s
+  max_vel_trans: 0.5  # 最大平移速度，单位为m/s
+  min_vel_trans: -0.5  # 最小平移速度，单位为m/s
+  max_vel_theta: 1.0  # 最大旋转速度，单位为rad/s
+  min_vel_theta: -1.0  # 最小旋转速度，单位为rad/s
+  acc_lim_x: 2.5  # x方向加速度限制，单位为m/s^2
+  acc_lim_theta: 3.2  # 旋转加速度限制，单位为rad/s^2
+  path_distance_bias: 32.0  # 路径偏差权重
+  goal_distance_bias: 24.0  # 目标偏差权重
+  occdist_scale: 0.01  # 障碍物代价权重
+  sim_time: 1.7  # 前向模拟时间，单位为秒
+  sim_granularity: 0.025  # 前向模拟步长，单位为米
+  vx_samples: 6  # x方向速度采样点数
+  vy_samples: 0  # y方向速度采样点数
+  vtheta_samples: 20  # 旋转速度采样点数
+  forward_point_distance: 0.325  # 前向点距离
+  stop_time_buffer: 0.2  # 停止时间缓冲区，单位为秒
+  scaling_speed: 0.25  # 缩放速度
+  max_scaling_factor: 0.2  # 最大缩放因子

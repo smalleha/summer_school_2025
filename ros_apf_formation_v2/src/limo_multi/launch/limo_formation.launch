@@ -1,0 +1,27 @@
+<launch>
+    <!-- 启动tf设置，建立map到各个机器人odom的转换关系 -->
+    <include file="$(find limo_multi)/launch/tf_setup.launch" />
+    
+    <!-- 分享主车位置与速度信息给其他车辆 -->
+    <node pkg="limo_multi" type="send_tfodom.py" name="send_tfodom" output="screen" ns="limo1">
+    </node>
+    
+    <!-- 从车1接收主车信息并跟随 -->
+    <include file="$(find limo_multi)/launch/limo_slave_sim.launch">
+        <arg name="robot_name" value="limo2" />
+        <arg name="slave_x" value="-1.0" />
+        <arg name="slave_y" value="-1.0" />
+    </include>
+    
+    <!-- 从车2接收主车信息并跟随 -->
+    <include file="$(find limo_multi)/launch/limo_slave_sim.launch">
+        <arg name="robot_name" value="limo3" />
+        <arg name="slave_x" value="-1.0" />
+        <arg name="slave_y" value="1.0" />
+    </include>
+
+    <include file="$(find limo_multi)/launch/navigation_sim.launch"/>
+    
+    <!-- 启动RViz可视化 -->
+    <include file="$(find limo_multi)/launch/formation_rviz.launch" />
+</launch>

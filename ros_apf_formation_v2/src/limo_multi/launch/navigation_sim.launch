@@ -1,0 +1,7 @@
+<launch>
+	 <!-- 分享主车位置与速度信息给其他车辆-->
+<include file="$(find limo_multi_navigation)/launch/limo_navigation_diff.launch"/>
+<node name="set_goal" pkg="limo_multi_navigation" type="set_goal.py" output="screen"/>
+
+
+</launch>

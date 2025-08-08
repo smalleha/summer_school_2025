@@ -1,0 +1,15 @@
+  <launch>
+      
+      <include file="$(find limo_multi_navigation)/launch/limo_navigation_diff.launch"/>
+        <include file="$(find limo_multi_navigation)/launch/limo_navigation_limo3.launch" >   
+
+      <node pkg="limo_multi_navigation" type="limo_follow1_triangle" name="limo_follow1_triangle" output="screen">
+        <param name="leader_frame" value="limo1"/>
+        <param name="follower_frame" value="limo3"/>
+        <param name="map_frame" value="map"/>
+    </node>
+
+    	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find limo_multi_navigation)/rviz/navigation_diff.rviz"/>
+
+  </launch>
+   

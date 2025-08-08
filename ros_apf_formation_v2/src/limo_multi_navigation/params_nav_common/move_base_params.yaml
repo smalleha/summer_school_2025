@@ -1,0 +1,38 @@
+# move_base_params.yaml
+move_base:
+  controller_frequency: 10.0  # 控制器频率，单位为Hz
+  controller_patience: 3.0  # 控制器耐心时间，单位为秒
+  recovery_behavior_enabled: true  # 是否启用恢复行为
+  oscillation_timeout: 10.0  # 振荡超时时间，单位为秒
+  oscillation_distance: 0.5  # 振荡距离，单位为米
+
+  # 全局代价地图配置
+  global_costmap:
+    global_frame: map
+    robot_base_frame: base_footprint
+    update_frequency: 2.0
+    publish_frequency: 1.0
+    static_map: true
+    rolling_window: false
+    transform_tolerance: 0.5
+    plugins:
+      - {name: static_layer, type: "costmap_2d::StaticLayer"}
+      - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+      - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+  # 局部代价地图配置
+  local_costmap:
+    global_frame: map
+    robot_base_frame: base_footprint
+    update_frequency: 5.0
+    publish_frequency: 2.0
+    static_map: false
+    rolling_window: true
+    width: 4.5
+    height: 4.5
+    resolution: 0.05
+    transform_tolerance: 0.5
+    plugins:
+      - {name: static_layer, type: "costmap_2d::StaticLayer"}
+      - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+      - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

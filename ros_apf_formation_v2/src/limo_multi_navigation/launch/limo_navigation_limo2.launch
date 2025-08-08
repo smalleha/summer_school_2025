@@ -1,0 +1,43 @@
+<launch>
+    <arg name="car_mode"  default="" />
+
+    <!-- Remap and tf settings for limo2 -->
+    <remap from="/cmd_vel" to="/limo2/cmd_vel"/>
+    <remap from="/scan" to="limo2/scan"/>
+    <remap from="/limo2/odom" to="/odom"/>
+
+    <!-- AMCL for limo2 -->
+	<node pkg="amcl" type="amcl" name="limo2_amcl" output="screen">
+    <rosparam file="$(find limo_multi_navigation)/param/amcl_params_diff_limo2.yaml" command="load" />
+    <param name="initial_pose_x" value="0"/>
+    <param name="initial_pose_y" value="0"/>
+    <param name="initial_pose_a" value="0"/>
+    <param name="base_frame_id" value="limo2/base_footprint"/>
+    <param name="global_frame_id" value="map"/>
+	<remap from="/initialpose" to="/limo2/initialpose"/>
+</node>
+	<!-- Robot State Publisher for limo2 -->
+	<!-- <node name="limo2_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+		<param name="robot_description" type="string" value="$(find limo_description)/urdf/limo.urdf" />
+	</node> -->
+    <!--  ************** map server ***************  -->
+    <node pkg="map_server" type="map_server" name="limo2_map_server" args="$(find limo_multi_navigation)/maps/map11.yaml" output="screen">
+        <param name="frame_id" value="map"/>
+    </node>
+
+    <!--  ************** Navigation *************** -->
+	<node pkg="move_base" type="move_base" respawn="false" name="limo2_move_base" output="screen" ns="limo2">
+      
+  	  	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params_limo2.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params_limo2.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/local_costmap_params_limo2.yaml" command="load" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/global_costmap_params_limo2.yaml" command="load" />
+
+        <rosparam file="$(find limo_multi_navigation)/params_nav_common/move_base_params.yaml"          command="load" />
+        <rosparam file="$(find limo_multi_navigation)/params_nav_common/base_global_planner_param.yaml" command="load" />
+        <param name="base_local_planner"    type="string" value="dwa_local_planner/DWAPlannerROS"/>
+        <rosparam file="$(find limo_multi_navigation)/params_nav_common/dwa_local_planner_params_limo2.yaml"  command="load" />
+    </node>
+       
+
+</launch>

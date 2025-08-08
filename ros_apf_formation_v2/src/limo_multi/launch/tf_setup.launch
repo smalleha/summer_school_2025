@@ -1,0 +1,11 @@
+<launch>
+    <!-- 发布静态tf变换，建立map到各个机器人odom的转换关系 -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_limo1_odom" 
+          args="0 0 0 0 0 0 map limo1/odom 100" />
+          
+    <node pkg="tf" type="static_transform_publisher" name="map_to_limo2_odom" 
+          args="0 0 0 0 0 0 map limo2/odom 100" />
+          
+    <node pkg="tf" type="static_transform_publisher" name="map_to_limo3_odom" 
+          args="0 0 0 0 0 0 map limo3/odom 100" />
+</launch>

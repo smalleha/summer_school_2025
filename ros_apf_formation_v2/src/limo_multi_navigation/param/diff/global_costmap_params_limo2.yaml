@@ -1,0 +1,12 @@
+global_costmap:
+  global_frame: map  # 全局参考坐标系，通常设置为地图坐标系（map），用于定位全局代价地图
+  robot_base_frame: limo2/base_footprint  # 机器人基座的坐标系，用于确定机器人在全局代价地图中的位置
+  update_frequency: 2.0  # 代价地图的更新频率，单位为Hz，表示每秒更新2次
+  publish_frequency: 1.0  # 代价地图的发布频率，单位为Hz，表示每秒发布1次
+  static_map: true  # 是否使用静态地图，设置为true表示使用静态地图作为全局代价地图的基础
+
+  transform_tolerance: 0.5  # 变换容忍度，单位为秒，允许的tf变换延迟，用于处理tf变换的延迟问题
+  plugins:  # 定义全局代价地图中使用的插件
+    - {name: static_layer, type: "costmap_2d::StaticLayer"}  # 静态层插件，用于处理静态地图数据
+    - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}  # 障碍物层插件，用于处理传感器数据并标记障碍物，这里使用VoxelLayer处理3D数据
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}  # 膨胀层插件，用于对障碍物进行膨胀处理，增加避障的安全距离

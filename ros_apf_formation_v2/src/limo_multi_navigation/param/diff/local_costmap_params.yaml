@@ -1,0 +1,16 @@
+# local_costmap_params.yaml
+local_costmap:
+  global_frame: map  # 全局参考坐标系
+  robot_base_frame: limo1/base_footprint  # 机器人基座坐标系
+  update_frequency: 15.0  # 代价地图更新频率，单位为Hz8
+  publish_frequency: 6.0  # 代价地图发布频率，单位为Hz4
+  static_map: false  # 是否使用静态地图
+  rolling_window: true  # 是否使用滚动窗口模式
+  width: 4.5  # 代价地图宽度，单位为米
+  height: 4.5  # 代价地图高度，单位为米
+  resolution: 0.05  # 代价地图分辨率，单位为米/像素
+  transform_tolerance: 0.5  # 变换容忍度，单位为秒
+  plugins:  # 代价地图插件
+    - {name: static_layer, type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

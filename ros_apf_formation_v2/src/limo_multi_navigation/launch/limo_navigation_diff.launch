@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Remap and tf settings for limo1 -->
+    <remap from="/cmd_vel" to="/limo1/cmd_vel"/>
+    <remap from="/scan" to="limo1/scan"/>
+    <remap from="/limo1/odom" to="/odom"/>
+
+    <!-- AMCL for limo1 -->
+    <!-- <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <rosparam file="$(find limo_multi_navigation)/param/amcl_params_diff.yaml" command="load" />
+        <param name="initial_pose_x" value="0"/>
+        <param name="initial_pose_y" value="0"/>
+        <param name="initial_pose_a" value="0"/>
+    </node>       -->
+
+    <!--  ************** map server ***************  -->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find limo_multi_navigation)/maps/map66.yaml" output="screen" >
+    <param name="frame_id" value="map"/>
+    </node>
+
+    <!--  ************** Navigation *************** -->
+	<node pkg="move_base" type="move_base" respawn="false" name="limo1_move_base" output="screen" ns="limo1">
+  	  	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/local_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/global_costmap_params.yaml" command="load" />
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+		<param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+        <param name="clearing_rotation_allowed" value="true" />
+
+
+	</node> 
+
+</launch>

@@ -1,0 +1,42 @@
+<launch>
+   
+
+    <!-- Remap and tf settings for limo3 -->
+    <remap from="/cmd_vel" to="/limo3/cmd_vel"/>
+    <remap from="/scan" to="limo3/scan"/>
+    <remap from="/limo3/odom" to="/odom"/>
+
+    <!-- AMCL for limo2 -->
+	<node pkg="amcl" type="amcl" name="limo3_amcl" output="screen">
+    <rosparam file="$(find limo_multi_navigation)/param/amcl_params_diff_limo3.yaml" command="load" />
+    <param name="initial_pose_x" value="0"/>
+    <param name="initial_pose_y" value="0"/>
+    <param name="initial_pose_a" value="0"/>
+    <param name="base_frame_id" value="limo3/base_footprint"/>
+    <param name="global_frame_id" value="map"/>
+	<remap from="/initialpose" to="/limo3/initialpose"/>
+</node>
+	<!-- Robot State Publisher for limo3 -->
+	<!-- <node name="limo3_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+		<param name="robot_description" type="string" value="$(find limo_description)/urdf/limo.urdf" />
+	</node> -->
+    <!--  ************** map server ***************  -->
+    <node pkg="map_server" type="map_server" name="limo3_map_server" args="$(find limo_multi_navigation)/maps/map11.yaml" output="screen">
+        <param name="frame_id" value="map"/>
+    </node>
+    <!--  ************** Navigation *************** -->
+	<node pkg="move_base" type="move_base" respawn="false" name="limo3_move_base" output="screen" ns="limo3">
+  	  	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params_limo3.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find limo_multi_navigation)/param/diff/costmap_common_params_limo3.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/local_costmap_params_limo3.yaml" command="load" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/global_costmap_params_limo3.yaml" command="load" />
+  		<rosparam file="$(find limo_multi_navigation)/param/diff/planner_limo3.yaml" command="load" />
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+		<param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+        <param name="clearing_rotation_allowed" value="true" />
+	</node>
+</launch>

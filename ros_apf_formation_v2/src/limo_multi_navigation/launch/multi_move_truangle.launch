@@ -1,0 +1,25 @@
+  <launch>
+
+<include file="$(find limo_multi_navigation)/launch/limo_navigation_diff.launch"/>
+<!-- <include file="$(find limo_multi_navigation)/launch/limo_navigation_limo2.launch"/>
+<include file="$(find limo_multi_navigation)/launch/limo_navigation_limo3.launch"/> -->
+<!-- <node name="set_initial_pose" pkg="limo_multi_navigation" type="set_initial_pose.py" output="screen"/> -->
+<!-- <node name = "set_initial_pose_limo3" pkg = "limo_multi_navigation" type = "set_initial_pose_limo3.py" output = "screen"/>
+
+
+        <node pkg="limo_multi_navigation" type="limo_follow1_triangle" name="limo_follow1_triangle" output="screen">
+        <param name="leader_frame" type="string" value="limo1/base_link" />
+        <param name="map_frame" type="string" value="map" />
+        </node>
+
+        <node pkg="limo_multi_navigation" type="limo_follow2_triangle" name="limo_follow2_triangle" output="screen">
+        <param name="leader_frame" type="string" value="limo1/base_link" />
+        <param name="map_frame" type="string" value="map" />
+        </node> -->
+
+<node name="set_goal" pkg="limo_multi_navigation" type="set_goal.py" output="screen"/>
+<!-- <node name="stop_on_failure" pkg="limo_multi_navigation" type="stop_on_failure.py" output="screen"/> -->
+
+<!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find limo_multi_navigation)/rviz/navigation_diff.rviz"/> -->
+
+  </launch>

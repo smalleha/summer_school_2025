@@ -1,0 +1,4 @@
+<launch>
+    <!-- 添加RViz可视化 -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find limo_multi)/rviz/multi_robot_formation.rviz" output="screen"/>
+</launch>
